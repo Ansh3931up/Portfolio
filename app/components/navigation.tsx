@@ -9,6 +9,18 @@ import { Button } from "./ui/button"
 import { useRouter } from 'next/navigation'
 import { SearchableItem, searchContent } from '@/utils/search'
 
+// Move searchableItems outside the component
+const searchableItems: SearchableItem[] = [
+  {
+    id: 'about',
+    title: 'About Me',
+    content: 'Your about section content...',
+    type: 'about',
+    url: '#about'
+  },
+  // ... rest of your searchable items
+]
+
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const { theme, setTheme } = useTheme()
@@ -18,45 +30,6 @@ export function Navigation() {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<SearchableItem[]>([])
   const router = useRouter()
-
-  // Example searchable items - replace with your actual content
-  const searchableItems: SearchableItem[] = [
-    // About section
-    {
-      id: 'about',
-      title: 'About Me',
-      content: 'Your about section content...',
-      type: 'about',
-      url: '#about'
-    },
-    
-    // Projects
-    {
-      id: 'project-1',
-      title: 'Project Name',
-      content: 'Project description...',
-      type: 'project',
-      url: '#projects'
-    },
-    
-    // Skills
-    {
-      id: 'skill-1',
-      title: 'Web Development',
-      content: 'React, Next.js, TypeScript...',
-      type: 'skill',
-      url: '#skills'
-    },
-    
-    // Testimonials
-    {
-      id: 'testimonial-1',
-      title: 'Client Name',
-      content: 'Testimonial content...',
-      type: 'testimonial',
-      url: '#testimonials'
-    }
-  ]
 
   useEffect(() => {
     setMounted(true)
@@ -70,7 +43,7 @@ export function Navigation() {
   useEffect(() => {
     const results = searchContent(searchQuery, searchableItems)
     setSearchResults(results)
-  }, [searchQuery, searchableItems])
+  }, [searchQuery])
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
