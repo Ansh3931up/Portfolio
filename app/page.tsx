@@ -2,7 +2,7 @@ import { Navigation } from "./components/navigation"
 import { MovingSubheader } from "./components/moving-subheader"
 import { Hero } from "./components/hero"
 import { About } from "./components/about"
-import { Projects } from "./components/projects"
+import  {Projects}  from "./components/projects"
 import { Skills } from "./components/skills"
 import { Feedback } from "./components/feedback"
 import { Contact } from "./components/contact"
@@ -12,7 +12,8 @@ import { HireMe } from "./components/hire-me"
 import { CVPopup } from "./components/cv-popup"
 import { Sidebar } from "./components/sidebar"
 import { NewsBrief } from "./components/news-brief"
-import { GitHubProfile } from './components/github-profile'
+import { Achievements } from "./components/achievements"
+// import { GitHubProfile } from './components/github-profile'
 
 export default function Home() {
   return (
@@ -86,9 +87,11 @@ export default function Home() {
             <Feedback />
           </section>
         </div>
-        <Footer />
+        
       </div>
       <CVPopup />
+      <Achievements />
+      <Footer />
       {/* <GitHubProfile username="Ansh3931up" /> */}
     </main>
   )
