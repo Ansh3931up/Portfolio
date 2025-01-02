@@ -1,6 +1,7 @@
 import "./globals.css"
 import { Inter, Playfair_Display, UnifrakturMaguntia, Noto_Serif } from 'next/font/google'
 import { ThemeProvider } from "./components/theme-provider"
+import { PageLoader } from "./components/page-loader"
 
 const inter = Inter({ subsets: ["latin"] })
 const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-playfair' })
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${playfair.variable} ${unifraktur.variable} ${notoSerif.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        
           {children}
         </ThemeProvider>
       </body>

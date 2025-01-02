@@ -13,11 +13,13 @@ import { CVPopup } from "./components/cv-popup"
 import { Sidebar } from "./components/sidebar"
 import { NewsBrief } from "./components/news-brief"
 import { Achievements } from "./components/achievements"
+import { PageLoader } from "./components/page-loader"
 // import { GitHubProfile } from './components/github-profile'
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#faf7f2] dark:bg-black relative">
+      <PageLoader />
       <BackgroundTexture />
       <div className="relative z-10">
         <Navigation />
