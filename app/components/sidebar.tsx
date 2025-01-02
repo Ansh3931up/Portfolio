@@ -107,7 +107,7 @@ export function Sidebar() {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            topLanguages.map(([language, count]) => (
+            topLanguages.map(([language]) => (
               <div key={language} className="flex justify-between items-center">
                 <span>{language}</span>
                 <div className="flex gap-1">
@@ -197,7 +197,7 @@ export function Sidebar() {
             />
           </div>
           <p className="italic mb-2">
-            "Exceptional work! Exceeded all our expectations with innovative solutions and timely delivery."
+            &quot;Exceptional work! Exceeded all our expectations with innovative solutions and timely delivery.&quot;
           </p>
           <p className="font-bold">John Smith</p>
           <p className="text-xs text-primary/70">CEO, Tech Innovations Inc.</p>

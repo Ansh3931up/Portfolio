@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { GitHubUser, GitHubRepo, getGitHubUser, getGitHubRepos } from '../utils/github'
 import { Star, GitFork, Clock } from 'lucide-react'
+import Image from 'next/image'
 
 export function GitHubProfile({ username }: { username: string }) {
   const [user, setUser] = useState<GitHubUser | null>(null)
@@ -76,9 +77,11 @@ export function GitHubProfile({ username }: { username: string }) {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col md:flex-row items-center gap-6 mb-12"
         >
-          <img 
+          <Image 
             src={user.avatar_url} 
-            alt="GitHub Profile"
+            alt={`${username}'s avatar`}
+            width={100}
+            height={100}
             className="w-32 h-32 rounded-full border-4 border-primary/20"
           />
           <div className="text-center md:text-left">

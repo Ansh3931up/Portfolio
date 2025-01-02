@@ -70,7 +70,7 @@ export function Navigation() {
   useEffect(() => {
     const results = searchContent(searchQuery, searchableItems)
     setSearchResults(results)
-  }, [searchQuery])
+  }, [searchQuery, searchableItems])
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
