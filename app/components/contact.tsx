@@ -11,12 +11,42 @@ export function Contact() {
     company: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitMessage, setSubmitMessage] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    alert('Thank you for your message! I will get back to you soon.')
-    setFormData({ name: '', email: '', company: '', message: '' })
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    setSubmitMessage('')
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setSubmitStatus('success')
+        setSubmitMessage('Thank you for your message! I will get back to you soon.')
+        setFormData({ name: '', email: '', company: '', message: '' })
+      } else {
+        setSubmitStatus('error')
+        setSubmitMessage(result.error || 'Failed to send message. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error sending email:', error)
+      setSubmitStatus('error')
+      setSubmitMessage('Network error. Please check your connection and try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -233,21 +263,58 @@ export function Contact() {
                 </motion.div>
               ))}
 
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-2xl text-green-400 font-poppins"
+                >
+                  ✅ {submitMessage}
+                </motion.div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-2xl text-red-400 font-poppins"
+                >
+                  ❌ {submitMessage}
+                </motion.div>
+              )}
+
               <motion.button
                 type="submit"
-                className="group w-full bg-gradient-to-r from-red-500 via-red-600 to-orange-500 hover:from-red-600 hover:via-red-700 hover:to-orange-600 text-white py-4 px-6 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-[1.02] shadow-lg hover:shadow-red-500/25 cursor-pointer font-poppins flex items-center justify-center space-x-3 text-lg overflow-hidden relative"
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting}
+                className={`group w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-[1.02] shadow-lg cursor-pointer font-poppins flex items-center justify-center space-x-3 text-lg overflow-hidden relative ${
+                  isSubmitting 
+                    ? 'bg-gray-600 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-red-500 via-red-600 to-orange-500 hover:from-red-600 hover:via-red-700 hover:to-orange-600 hover:shadow-red-500/25'
+                }`}
+                whileHover={isSubmitting ? {} : { y: -3 }}
+                whileTap={isSubmitting ? {} : { scale: 0.98 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
               >
                 <span className="relative z-10 flex items-center space-x-3">
-                  <Send className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
-                  <span>Send Message</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+                      <span>Send Message</span>
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </>
+                  )}
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {!isSubmitting && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                )}
               </motion.button>
             </form>
           </motion.div>
