@@ -1,98 +1,210 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Image from "next/image"
-import image1 from '../../assests/my-image_enhanced.png'
+import { useEffect, useState } from "react";
+import { getGitHubRepos, getGitHubUser, GitHubRepo, GitHubUser } from "../utils/github";
 
 export function Hero() {
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+
+  const [user, setUser] = useState<GitHubUser | null>(null);
+  const [repos, setRepos] = useState<GitHubRepo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [userData, reposData] = await Promise.all([
+          getGitHubUser('Ansh3931up'),
+          getGitHubRepos('Ansh3931up')
+        ]);
+        setUser(userData);
+        setRepos(reposData);
+      } catch (error) {
+        console.error('Error fetching GitHub data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#141111] text-white flex items-center pb-28 justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white/70">Loading GitHub profile...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!user || !repos) {
+    return (
+      <main className="min-h-screen bg-[#141111] text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">
+            Unable to load profile data
+          </h1>
+          <p className="text-white/70">
+            Please try refreshing the page
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <section className="relative min-h-[80vh] sm:min-h-[90vh] bg-background dark:bg-black border-b-2 border-primary">
-      {/* Color Dots - Responsive sizing */}
-      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex gap-1 sm:gap-2">
-        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#C6A07D]" />
-        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#8B4513]" />
-        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#2c1810]" />
+    <section className="relative overflow-hidden bg-background border-b-2 pb-4 ">
+
+      {/* Animated Background Elements (hidden on small screens) */}
+      <div className="moving-lines font-bold text-white hidden sm:block">
+        <div className="moving-line"></div>
+        <div className="moving-line"></div>
+        <div className="moving-line"></div>
+        <div className="moving-line"></div>
+        <div className="moving-line"></div>
+        <div className="moving-line"></div>
+      </div>
+      
+      {/* Orbital elements (hidden on small screens) */}
+      <div className="orbital-container hidden sm:block">
+        <div className="orbital-element"></div>
+        <div className="orbital-element"></div>
+        <div className="orbital-element"></div>
+        <div className="orbital-element"></div>
+      </div>
+      
+      {/* Minimal particles on mobile, full set on >= sm */}
+      <div className="floating-particles sm:hidden">
+        <div className="particle"></div>
+        <div className="particle"></div>
+      </div>
+      <div className="floating-particles hidden sm:block">
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
       </div>
 
-      {/* Special Issue Banner - Responsive text */}
-      <div className="absolute top-0 left-0 bg-primary text-primary-foreground py-1 sm:py-2 px-2 sm:px-4 z-10">
-        <span className="font-newspaper-heading text-xs sm:text-sm tracking-wider">SPECIAL ISSUE</span>
+      {/* Grid Pattern Background */}
+      <div className="grid-pattern"></div>
+
+      {/* Pulsing Dots (limit on mobile) */}
+      <div className="pulse-dot"></div>
+      <div className="pulse-dot"></div>
+      <div className="pulse-dot hidden sm:block"></div>
+      <div className="pulse-dot hidden sm:block"></div>
+      <div className="pulse-dot hidden sm:block"></div>
+      <div className="pulse-dot hidden sm:block"></div>
+
+      {/* Glowing Orbs (only one on mobile) */}
+      <div className="glow-orb"></div>
+      <div className="glow-orb hidden sm:block"></div>
+      <div className="glow-orb hidden sm:block"></div>
+
+      {/* Additional Visual Elements (hidden on small screens) */}
+      <div className="geometric-shapes hidden md:block">
+        <div className="shape triangle"></div>
+        <div className="shape square"></div>
+        <div className="shape circle"></div>
+        <div className="shape hexagon"></div>
       </div>
 
-      <div className="container mx-auto px-4 pt-8 sm:pt-12 md:pt-16">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
-          {/* Text Content - Responsive typography */}
+      {/* Energy Lines (hidden on small screens) */}
+      <div className="energy-lines hidden md:block">
+        <div className="energy-line"></div>
+        <div className="energy-line"></div>
+        <div className="energy-line"></div>
+        <div className="energy-line"></div>
+      </div>
+
+      {/* Floating Cards (hidden on small screens) */}
+      <div className="floating-cards hidden md:block">
+        <div className="floating-card"></div>
+        <div className="floating-card"></div>
+        <div className="floating-card"></div>
+      </div>
+
+      <div className="container mx-auto px-4 pt-8 sm:pt-12 md:pt-16 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          
+          {/* Text Content - Left Side */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="order-2 lg:order-1 relative"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="relative text-center lg:text-left max-w-4xl px-4 sm:px-0 z-10 order-2 lg:order-1 flex-1"
           >
             {/* Decorative Corner - Responsive sizing */}
-            <div className="absolute -top-4 -left-4 sm:-top-8 sm:-left-8 w-12 h-12 sm:w-16 sm:h-16 border-l-2 border-t-2 border-primary opacity-50" />
+            <div className="absolute -top-4 -left-4 sm:-top-8 sm:-left-8 w-12 h-12 sm:w-16 sm:h-16 border-l-2 border-t-2 border-red-500 opacity-50" />
             
             <div className="relative z-10">
-              <h1 className="font-newspaper-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-none mb-4 sm:mb-6">
-                <span className="block text-base sm:text-xl md:text-2xl mb-2 text-primary/70">
-                  {currentDate} Edition
+              {/* Professional Badge */}
+              <div className="inline-flex items-center px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-full mb-2">
+                <span className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-red-500 font-medium text-sm">Available for Projects</span>
+              </div>
+           
+                
+              {/* Main Title with Better Typography */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight mb-2 sm:mb-8">
+                <span className="block text-base sm:text-lg md:text-xl mb-4 text-red-500 font-poppins font-medium tracking-wide uppercase">
+                  Full-Stack Developer & Problem Solver
                 </span>
-                DIGITAL
-                <br />
-                CRAFTSMAN
+                <span className="text-2xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-none mb-6 sm:mb-8 rubik-distressed-regular">
+                  Crafting Digital
+                </span>
+                <span className="block bg-gradient-to-r from-red-500 via-orange-400 to-red-500 bg-clip-text text-transparent font-poppins">
+                  Excellence
+                </span>
               </h1>
-              <div className="space-y-3 sm:space-y-4">
-                <p className="text-base sm:text-lg md:text-xl font-newspaper-body text-muted-foreground border-l-4 border-primary pl-4">
-                  A masterful celebration of modern web development, 
-                  showcasing the artistry, the passion, and the innovation 
-                  that drives the digital frontier.
+              
+              {/* Enhanced Description */}
+              <div className="space-y-4 sm:space-y-6 md:space-y-8">
+                <p className="text-base sm:text-md md:text-md lg:text-lg font-poppins text-white/90 leading-relaxed max-w-3xl mx-auto lg:mx-0">
+                  I&apos;m a strategic problem solver who transforms complex challenges into elegant digital solutions. 
+                  With expertise in full-stack development, I architect robust applications that not only meet 
+                  requirements but exceed expectations.
                 </p>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground font-newspaper-body">
-                  <span className="px-2 sm:px-3 py-1 border border-primary">Featured Developer</span>
-                  <span className="px-2 sm:px-3 py-1 border border-primary">Full-Stack Engineer</span>
-                </div>
+                
+                
               </div>
             </div>
 
             {/* Decorative Corner - Responsive sizing */}
-            <div className="absolute -bottom-4 -right-4 sm:-bottom-8 sm:-right-8 w-12 h-12 sm:w-16 sm:h-16 border-r-2 border-b-2 border-primary opacity-50" />
+            <div className="absolute -bottom-4 -right-4 sm:-bottom-8 sm:-right-8 w-12 h-12 sm:w-16 sm:h-16 border-r-2 border-b-2 border-red-500 opacity-50" />
           </motion.div>
 
-          {/* Image with Overlay - Responsive sizing and layout */}
+          {/* Profile Photo - Right Side */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="order-1 lg:order-2 relative"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="relative z-[9999] order-1 lg:order-2"
           >
-            <div className="relative aspect-[3/4] bg-gradient-to-b from-background to-transparent ">
-              <Image
-                src={image1}
-                alt="Featured Developer"
-                layout="fill"
-                objectFit="cover"
-                className="mix-blend-multiply dark:bg-black dark:mix-blend-difference"
-                priority
-              />
-              {/* Text Overlay - Responsive typography */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-background/90 to-transparent">
-                <h2 className="font-newspaper-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1 sm:mb-2">
-                  The Future of Web Development
-                </h2>
-                <p className="font-newspaper-body text-xs sm:text-sm text-muted-foreground">
-                  Pushing boundaries with modern technologies
-                </p>
+            <div className="relative inline-block">
+              {/* Test with a simple colored circle first */}
+              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full border-4 border-red-500 bg-red-500 flex items-center justify-center text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mx-auto shadow-2xl">
+                A
               </div>
-            </div>
-
-            {/* Issue Details - Responsive positioning and text */}
-            <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 bg-primary text-primary-foreground px-2 sm:px-4 py-1 sm:py-2 rotate-3">
-              <span className="font-newspaper-heading text-xs sm:text-sm">Vol. MMXXIII</span>
+              
+              {/* Try the actual image */}
+              <img 
+                src={user.avatar_url}
+                alt="GitHub Profile"
+                className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full border-4 border-red-500 mx-auto shadow-2xl absolute top-0 left-0"
+                style={{ zIndex: 9999 }}
+              />  
+              
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 bg-green-500 rounded-full border-4 border-[#1a1a1a] flex items-center justify-center">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full animate-pulse"></div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -105,29 +217,29 @@ export function Hero() {
           className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-12 pt-6 sm:pt-8 relative"
         >
           {/* Decorative Line */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-px bg-primary" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-px bg-red-500" />
           
           {[
-            { label: "Projects Delivered", value: "20+" },
-            { label: "Years Experience", value: "0.5+" },
-            { label: "Technologies", value: "15+" },
+            { label: "Projects Completed", value: "25+" },
+            { label: "Years Experience", value: "2+" },
+            { label: "Technologies Mastered", value: "20+" },
             { label: "Client Satisfaction", value: "100%" },
           ].map((stat, index) => (
             <div key={index} className="text-center group">
-              <p className="font-newspaper-heading text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors">
+              <p className="text-2xl sm:text-3xl font-bold group-hover:text-red-500 transition-colors font-poppins">
                 {stat.value}
               </p>
-              <p className="font-newspaper-body text-xs sm:text-sm text-muted-foreground">
+              <p className="text-sm sm:text-base text-muted-foreground font-poppins">
                 {stat.label}
               </p>
             </div>
           ))}
         </motion.div>
 
-        {/* Bottom Quote - Responsive typography */}
+        {/* Bottom Quote - Portfolio-focused */}
         <div className="mt-8 sm:mt-12 text-center">
-          <blockquote className="font-newspaper-body text-base sm:text-lg italic text-muted-foreground">
-            "Crafting digital experiences that leave a lasting impression"
+          <blockquote className="text-lg sm:text-xl italic text-red-500 font-poppins">
+            &ldquo;Code is poetry, and every project tells a story&rdquo;
           </blockquote>
         </div>
       </div>

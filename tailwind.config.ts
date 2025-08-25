@@ -17,7 +17,7 @@ export default {
 			'1000': '1000px',
 		  },
   		colors: {
-  			background: 'hsl(var(--background))',
+  			background: 'linear-gradient(57deg, rgba(79,0,0,1) 0%, rgba(105,0,0,1) 0%, rgba(252,40,40,1) 53%, rgba(110,0,0,1) 99%)',
   			foreground: 'hsl(var(--foreground))',
   			card: {
   				DEFAULT: 'hsl(var(--card))',

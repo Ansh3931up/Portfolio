@@ -2,209 +2,246 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { useState, useEffect } from "react"
-import { Moon, Sun, Search, Menu, X, Github, Linkedin, Mail, Twitter } from 'lucide-react'
-import { useTheme } from "next-themes"
+import { useState, useEffect, useRef } from "react"
+import { Search, Menu, X, Calendar, Settings } from 'lucide-react'
 import { Button } from "./ui/button"
-import { useRouter } from 'next/navigation'
-import { SearchableItem, searchContent } from '@/utils/search'
+import { gsap } from 'gsap'
+import { Draggable } from 'gsap/Draggable'
 
-// Move searchableItems outside the component
-const searchableItems: SearchableItem[] = [
-  {
-    id: 'about',
-    title: 'About Me',
-    content: 'Your about section content...',
-    type: 'about',
-    url: '#about'
-  },
-  // ... rest of your searchable items
-]
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(Draggable)
+}
 
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState<SearchableItem[]>([])
-  const router = useRouter()
+  const [showSearch, setShowSearch] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  
+  // Refs for GSAP animations
+  const navRef = useRef<HTMLElement>(null)
+  const centerTextRef = useRef<HTMLDivElement>(null)
+  const draggableButtonsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      const scrollTop = window.scrollY
+      setIsScrolled(scrollTop > 100)
     }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // GSAP animations for bottom taskbar
   useEffect(() => {
-    const results = searchContent(searchQuery, searchableItems)
-    setSearchResults(results)
-  }, [searchQuery])
+    if (mounted && draggableButtonsRef.current) {
+      // Initial animation for taskbar
+      gsap.fromTo(draggableButtonsRef.current, 
+        { 
+          scale: 0.8, 
+          opacity: 0, 
+          y: 100
+        },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          y: 0,
+          duration: 1,
+          ease: "back.out(1.7)"
+        }
+      )
 
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+      // Animate taskbar items with stagger
+      gsap.fromTo('.taskbar-item',
+        { 
+          opacity: 0, 
+          y: 30,
+          scale: 0.8
+        },
+        { 
+          opacity: 1, 
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power2.out",
+          delay: 0.5
+        }
+      )
+    }
+  }, [mounted])
+
+  // GSAP animations
+  useEffect(() => {
+    if (!mounted || !navRef.current || !centerTextRef.current) return
+
+    // Animate center text on mount
+    gsap.fromTo(centerTextRef.current, 
+      { 
+        scale: 0.8, 
+        opacity: 0,
+        rotation: -5
+      },
+      { 
+        scale: 1, 
+        opacity: 1, 
+        rotation: 0,
+        duration: 1.2,
+        ease: "back.out(1.7)"
+      }
+    )
+
+    // Animate navigation items
+    const navItems = navRef.current.querySelectorAll('.nav-item')
+    gsap.fromTo(navItems,
+      { 
+        y: -20, 
+        opacity: 0 
+      },
+      { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out"
+      }
+    )
+
+    // Setup draggable buttons
+    if (draggableButtonsRef.current) {
+      const buttons = draggableButtonsRef.current.querySelectorAll('.draggable-btn')
+      buttons.forEach((btn) => {
+        Draggable.create(btn, {
+          type: "x,y",
+          bounds: "body",
+          inertia: true,
+          onDragStart: function() {
+            gsap.to(this.target, { scale: 1.1, duration: 0.2 })
+          },
+          onDragEnd: function() {
+            gsap.to(this.target, { scale: 1, duration: 0.2 })
+          }
+        })
+      })
+    }
+  }, [mounted])
 
   const handleNavigation = (sectionId: string) => {
-    // Close mobile menu if open
     setMobileMenuOpen(false)
     
-    // Check if we're not on the home page
     if (!window.location.pathname.match(/^\/($|#)/)) {
       window.location.href = `/#${sectionId.toLowerCase()}`
       return
     }
     
-    // If on home page, smooth scroll to section
     const element = document.getElementById(sectionId.toLowerCase())
     element?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const handleSearchNavigation = (url: string) => {
-    setSearchQuery('') // Clear search
-    
-    // Remove the '#' from the url to get the section id
-    const sectionId = url.replace('#', '')
-    
-    // Check if we're not on the home page
-    if (!window.location.pathname.match(/^\/($|#)/)) {
-      window.location.href = `/#${sectionId.toLowerCase()}`
-      return
-    }
-    
-    // If on home page, smooth scroll to section
-    const element = document.getElementById(sectionId.toLowerCase())
-    element?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchResults.length > 0) {
-      // Navigate to the first result when pressing enter
-      handleSearchNavigation(searchResults[0].url)
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // You can implement search functionality here
+      console.log('Searching for:', searchQuery)
+      setSearchQuery('')
+      setShowSearch(false)
     }
   }
 
   if (!mounted) return null
 
   return (
-    <header className="bg-background border-b-2 border-primary w-full">
-      {/* Top Bar - More responsive */}
-      <div className="border-b border-primary">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-1 sm:py-2 flex justify-between items-center text-[10px] sm:text-xs font-newspaper-body">
-          <div className="hidden sm:flex items-center gap-2 md:gap-4">
-            <span className="hidden lg:inline">{currentDate}</span>
-            <span className="hidden md:inline">Edition: Digital</span>
-            <span className="hidden md:inline">Weather: Always Coding</span>
-          </div>
-          {/* Social Icons - Mobile Only */}
-      <div className=" flex md:mx-auto justify-center gap-4 py-2 ">
-        <Link href="/github" className="text-primary hover:text-primary/70">
-          <Github size={20} />
-        </Link>
-        <Link href="/linkedin" className="text-primary hover:text-primary/70">
-          <Linkedin size={20} />
-        </Link>
-       
-      </div>
-          <div className="flex items-center gap-2 sm:gap-4 ml-auto">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleKeyPress}
-                className="
-                  w-32 sm:w-48
-                  py-1 px-2 sm:py-1.5 sm:px-3
-                  border border-primary rounded-md
-                  text-xs sm:text-sm
-                  bg-background
-                  focus:outline-none focus:ring-1 focus:ring-primary
-                  dark:bg-gray-800 dark:border-gray-600
-                  dark:text-gray-100 dark:placeholder-gray-400
-                  transition-colors duration-200
-                "
-              />
-              
-              {/* Search Results Dropdown */}
-              {searchQuery && searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-background dark:bg-gray-800 border border-primary dark:border-gray-600 rounded-md shadow-lg z-50">
-                  {searchResults.map((result) => (
-                    <button
-                      key={result.id}
-                      onClick={() => handleSearchNavigation(result.url)}
-                      className="w-full text-left px-3 py-2 text-xs sm:text-sm hover:bg-primary/10 dark:hover:bg-gray-700"
-                    >
-                      <div className="font-bold">{result.title}</div>
-                      <div className="text-primary/70 dark:text-gray-400 truncate">
-                        {result.content.substring(0, 50)}...
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+    <header className="bg-background w-full">
+      {/* Draggable Floating Buttons */}
+     
 
-              {searchQuery && searchResults.length === 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-background dark:bg-gray-800 border border-primary dark:border-gray-600 rounded-md shadow-lg z-50 p-3 text-xs sm:text-sm text-center text-primary/70 dark:text-gray-400">
-                  No results found
+      {/* Main Navigation - Modern Capsule Design */}
+      <nav ref={navRef} className="py-5">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-primary/90 backdrop-blur-sm rounded-full p-0 shadow-2xl border border-primary/20">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3">
+              {/* Left Navigation Items */}
+              <div className="hidden lg:flex items-center space-x-6">
+                {[
+                  "What's Included",
+                  "Stories",
+                  "Our Why",
+                  "FAQs"
+                ].map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => handleNavigation(item.toLowerCase().replace(/\s+/g, '-'))}
+                    className="nav-item text-white/80 hover:text-white font-medium text-sm transition-all duration-300 hover:scale-105"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Center Brand Name */}
+              <div 
+                ref={centerTextRef}
+                className="bg-white  bg-clip-text text-transparent font-bold text-2xl tracking-wider"
+              ><Link href="/">
+                ANSH
+                </Link>
+              </div>
+              {/* Mobile Menu Button */}
+      <div className="md:hidden flex justify-center ">
+        <Button 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="bg-red-accent/20 backdrop-blur-sm border border-red-accent/30 text-white rounded-full px-6 py-3 hover:bg-red-accent/30 transition-all duration-300 shadow-lg"
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </Button>
+      </div>
+
+              {/* Right Action Buttons */}
+              <div className="hidden lg:flex items-center space-x-4">
+                {/* Search Bar */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    className="w-32 bg-white/20 text-white placeholder-white/70 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-300"
+                  />
+                  <button
+                    onClick={handleSearch}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
+                  >
+                    <Search size={16} />
+                  </button>
                 </div>
-              )}
+
+                <button className="nav-item text-white/80 hover:text-white font-medium text-sm transition-all duration-300">
+                <img 
+                  src="/faceimage.png"
+                  alt="Profile"
+                  className="w-12 h-12 rounded-full border-3 border-red-500 shadow-lg"
+                />
+                </button>
+                                  <button 
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="nav-item bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg cursor-pointer"
+                  >
+                    Contact
+                  </button>
+              </div>
             </div>
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="hover:text-primary/70 transition-colors p-1 sm:p-2"
-            >
-              {theme === "dark" ? 
-                <Sun size={12} className="sm:w-4 sm:h-4" /> : 
-                <Moon size={12} className="sm:w-4 sm:h-4" />
-              }
-            </button>
-            <Link href="#contact" className="hidden sm:inline-block hover:text-primary/70 transition-colors">
-              Subscribe
-            </Link>
-            <Button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex items-center justify-center p-1 sm:p-2"
-            >
-              {mobileMenuOpen ? 
-                <X size={16} className="sm:w-5 sm:h-5" /> : 
-                <Menu size={16} className="sm:w-5 sm:h-5" />
-              }
-            </Button>
           </div>
         </div>
-      </div>
+      </nav>
 
       
 
-      {/* Main Header - More responsive */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-6 text-center">
-        <div className="flex items-center justify-center relative">
-          <div className="hidden sm:block text-[10px] sm:text-sm font-newspaper-body absolute left-0">
-            Vol. MMXXIII, No. 42
-          </div>
-          <motion.h1
-            className="text-2xl xs:text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-newspaper-title tracking-tighter px-2 sm:px-4"
-            whileHover={{ scale: 1.05 }}
-          >
-            The Developer Times
-          </motion.h1>
-          <div className="hidden sm:block text-[10px] sm:text-sm font-newspaper-body absolute right-0">
-            Price: Your Attention
-          </div>
-        </div>
-        <p className="font-newspaper-body text-[10px] xs:text-xs sm:text-sm mt-1 sm:mt-2">
-          YOUR TRUSTED SOURCE FOR DEVELOPMENT EXCELLENCE
-        </p>
-      </div>
+
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
@@ -212,67 +249,76 @@ export function Navigation() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="md:hidden border-t border-primary absolute w-full bg-background z-50 shadow-lg"
+          className="md:hidden bg-black/80 backdrop-blur-xl border border-white/10 rounded-3xl mx-4 mb-4 shadow-2xl"
         >
-          <nav className="py-2 sm:py-4 px-2 sm:px-4">
-            {[
-              "HEADLINES",
-              "ABOUT",
-              "PROJECTS",
-              "SKILLS",
-              "TESTIMONIALS",
-              "CONTACT"
-            ].map((item) => (
+          <nav className="py-6 px-6">
+            {/* Mobile Profile Image */}
+            <div className="flex items-center justify-center mb-6">
+              <div className="relative">
+                <img 
+                  src="/faceimage.png"
+                  alt="Profile"
+                  className="w-16 h-16 rounded-full border-3 border-red-500 shadow-lg"
+                />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black"></div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-white font-semibold text-lg">Welcome Back</h3>
+                <p className="text-white/70 text-sm">Ready to explore?</p>
+              </div>
+            </div>
+
+            {/* Mobile Search */}
+            <div className="relative mb-6">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-2xl px-5 py-4 text-base focus:outline-none focus:ring-2 focus:ring-red-accent/50 focus:border-red-accent/50 transition-all duration-300"
+              />
               <button
-                key={item}
-                onClick={() => handleNavigation(item)}
-                className="block w-full py-2 font-newspaper-heading text-xs sm:text-sm hover:text-primary/70 transition-colors text-center"
+                onClick={handleSearch}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
               >
-                {item}
+                <Search size={22} />
               </button>
-            ))}
+            </div>
+
+            {/* Navigation Items */}
+            <div className="space-y-2 mb-6">
+              {[
+                "What's Included",
+                "Stories",
+                "Our Why",
+                "FAQs"
+              ].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleNavigation(item.toLowerCase().replace(/\s+/g, '-'))}
+                  className="block w-full py-4 px-4 text-white/90 hover:text-white font-medium text-left rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="space-y-3 pt-4 border-t border-white/10">
+              <button className="block w-full py-4 px-4 text-white/80 hover:text-white font-medium text-center rounded-xl hover:bg-white/5 transition-all duration-300 border border-white/20 hover:border-white/30">
+                Login
+              </button>
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="block w-full bg-gradient-to-r from-red-accent to-orange-500 hover:from-red-accent/90 hover:to-orange-500/90 text-white py-4 px-4 rounded-xl font-semibold text-center transition-all duration-300 shadow-lg hover:shadow-red-accent/25 cursor-pointer"
+              >
+                Contact Me
+              </button>
+            </div>
           </nav>
         </motion.div>
       )}
-
-      {/* Desktop Navigation */}
-      <nav className="hidden md:block border-t border-b border-primary">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-center space-x-4 lg:space-x-8 py-2 md:py-3">
-            {[
-              "HEADLINES",
-              "ABOUT",
-              "PROJECTS",
-              "SKILLS",
-              "TESTIMONIALS",
-              "CONTACT"
-            ].map((item) => (
-              <button
-                key={item}
-                onClick={() => handleNavigation(item)}
-                className="font-newspaper-heading text-xs lg:text-sm hover:text-primary/70 transition-colors whitespace-nowrap"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </div>
-      </nav>
-
-      {/* Breaking News Ticker - Responsive text size */}
-      <div className="bg-primary text-primary-foreground py-1 overflow-hidden">
-        <motion.div
-          animate={{ x: "-100%" }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="whitespace-nowrap font-newspaper-body text-[10px] xs:text-xs sm:text-sm"
-        >
-          BREAKING NEWS: New portfolio features launched • Client satisfaction reaches all-time high • Latest project exceeds performance benchmarks • Now accepting new project inquiries • Special collaboration opportunities available
-        </motion.div>
-      </div>
     </header>
   )
 }
