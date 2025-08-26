@@ -239,7 +239,7 @@ if (typeof window !== 'undefined') {
     const currLenis = (window as any).__lenisActive
     const currLoco = (window as any).__locomotiveActive
     if (currLenis !== lastLenis) {
-      lastLenis = curr
+      lastLenis = currLenis
       detachRawHandlers()
       if (!currLenis && !currLoco) attachRawHandlers()
     } else {

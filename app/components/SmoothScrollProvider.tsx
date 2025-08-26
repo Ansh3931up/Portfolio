@@ -9,9 +9,6 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     ;(window as any).__lenisActive = true
     const lenis = new Lenis({
       duration: 0.85,      // lower = faster response
-      smooth: true,
-      smoothWheel: true,
-      smoothTouch: true,
       wheelMultiplier: 1.25, // quicker wheel response
       touchMultiplier: 1.15, // quicker touch response
       lerp: 0.16,            // faster catch-up
