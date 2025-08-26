@@ -171,9 +171,7 @@ export function Navigation() {
             
             {/* Action Buttons */}
             <div className="space-y-3 pt-4 border-t border-white/10">
-              <button className="block w-full py-4 px-4 text-white/80 hover:text-white font-medium text-center rounded-xl hover:bg-white/5 transition-all duration-300 border border-white/20 hover:border-white/30">
-                Login
-              </button>
+              
               <button 
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 className="block w-full bg-gradient-to-r from-red-accent to-orange-500 hover:from-red-accent/90 hover:to-orange-500/90 text-white py-4 px-4 rounded-xl font-semibold text-center transition-all duration-300 shadow-lg hover:shadow-red-accent/25 cursor-pointer"
