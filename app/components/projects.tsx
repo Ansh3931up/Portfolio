@@ -57,7 +57,7 @@ const projects = [
 
 export function Projects() {
   return (
-    <section id="projects" className="py-8 bg-[#0f0f0f] relative overflow-hidden">
+    <section id="projects" className="py-8 section-dark-gray relative overflow-hidden">
       {/* Sleek Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-32 left-20 w-1 h-40 bg-gradient-to-b from-red-500/20 via-red-400/15 to-transparent animate-pulse"></div>
@@ -92,7 +92,7 @@ export function Projects() {
             className="text-5xl md:text-7xl font-black text-white mb-8 font-poppins leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             Latest
             <span className="block bg-gradient-to-r from-red-400 via-red-500 to-orange-500 bg-clip-text text-transparent">
@@ -130,10 +130,10 @@ export function Projects() {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.1] group-hover:border-red-500/30 transition-all duration-300">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      layout="fill"
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  layout="fill"
                       objectFit="cover"
                       className="group-hover:scale-105 transition-transform duration-500"
                     />
@@ -230,11 +230,11 @@ export function Projects() {
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                       <ExternalLink className="w-4 h-4" />
                     </motion.div>
-                  </div>
-                </div>
               </div>
-            </motion.article>
-          ))}
+            </div>
+            </div>
+          </motion.article>
+        ))}
         </div>
 
         {/* Call to Action Section */}

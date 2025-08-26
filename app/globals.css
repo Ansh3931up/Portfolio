@@ -63,7 +63,7 @@
     @apply text-foreground transition-colors duration-300;
     position: relative;
     min-height: 100vh;
-    background: #1a1a1a;
+    background: linear-gradient(135deg, rgb(26, 0, 0) 0%, rgb(42, 0, 0) 50%, rgb(79, 0, 0) 100%);
     color: #ffffff;
     font-family: var(--font-poppins), sans-serif;
     font-weight: 600;
@@ -243,7 +243,7 @@
   /* Hero section specific background */
   .hero-section {
     background:#1a1a1a;
-    background: linear-gradient(57deg, rgb(26, 0, 0) 0%, rgb(40, 0, 0) 25%, rgb(60, 0, 0) 50%, rgb(80, 0, 0) 75%, rgb(100, 0, 0) 100%);
+    background: linear-gradient(135deg, rgb(42, 0, 0) 0%, rgb(79, 0, 0) 25%, rgb(139, 0, 0) 50%, rgb(220, 20, 60) 75%, rgb(110, 0, 0) 100%);
     position: relative;
     min-width: 220px;
     width: 100%;
@@ -251,35 +251,35 @@
     box-sizing: border-box;
   }
 
-  /* Section backgrounds - consistent blackish gray */
+  /* Section backgrounds - consistent reddish gray */
   .section-dark-gray {
-    background: #0f0f0f;
+    background: linear-gradient(135deg, rgb(15, 0, 0) 0%, rgb(25, 0, 0) 100%);
     min-width: 280px;
     width: 100%;
   }
 
   .section-darker-gray {
-    background: #0f0f0f;
+    background: linear-gradient(135deg, rgb(10, 0, 0) 0%, rgb(20, 0, 0) 100%);
     min-width: 320px;
     width: 100%;
   }
 
-  /* Modern bottom taskbar */
+  /* Modern bottom taskbar - Mac-style compact */
   .bottom-taskbar {
     position: fixed;
-    bottom: 20px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(15, 15, 15, 0.95);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border-radius: 20px;
-    padding: 12px 16px;
+    border-radius: 16px;
+    padding: 8px 12px;
     z-index: 1000;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-    min-width: 320px;
-    max-width: 90vw;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    min-width: 280px;
+    max-width: 80vw;
     width: fit-content;
     pointer-events: auto;
     box-sizing: border-box;
@@ -294,42 +294,43 @@
     position: relative;
   }
 
-  /* Responsive adjustments for mobile */
+  /* Responsive adjustments for mobile - Mac-style compact */
   @media (max-width: 480px) {
     .bottom-taskbar {
-      bottom: 8px;
-      padding: 6px 10px;
-      min-width: 280px;
-      max-width: 95vw;
-      width: 95vw;
-    }
-  }
-
-  @media (min-width: 481px) and (max-width: 640px) {
-    .bottom-taskbar {
-      bottom: 10px;
-      padding: 8px 14px;
-      min-width: 320px;
-      max-width: 92vw;
-      width: 92vw;
-    }
-  }
-
-  @media (min-width: 641px) and (max-width: 768px) {
-    .bottom-taskbar {
-      padding: 10px 18px;
-      min-width: 400px;
+      bottom: 6px;
+      padding: 6px 8px;
+      min-width: 240px;
       max-width: 90vw;
       width: 90vw;
     }
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 481px) and (max-width: 640px) {
     .bottom-taskbar {
-      padding: 12px 20px;
-      min-width: 480px;
+      bottom: 8px;
+      padding: 6px 10px;
+      min-width: 280px;
       max-width: 85vw;
       width: 85vw;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 768px) {
+    .bottom-taskbar {
+      padding: 8px 12px;
+      min-width: 320px;
+      max-width: 80vw;
+      width: 80vw;
+      width: fit-content;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .bottom-taskbar {
+      padding: 8px 16px;
+      min-width: 360px;
+      max-width: 75vw;
+      width: fit-content;
     }
   }
 
@@ -824,6 +825,29 @@
     0% { transform: translateX(0px); opacity: 0; }
     50% { opacity: 1; }
     100% { transform: translateX(400px); opacity: 0; }
+  }
+
+  /* Fast Scroll Warning */
+  .fast-scroll-warning {
+    position: relative;
+  }
+  
+  .fast-scroll-warning::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(220, 20, 60, 0.1);
+    z-index: 9999;
+    pointer-events: none;
+    animation: fastScrollPulse 0.5s ease-in-out;
+  }
+  
+  @keyframes fastScrollPulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
   }
 
   /* Floating Cards */

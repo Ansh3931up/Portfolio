@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export function About() {
   return (
-    <section id="about" className="py-4 bg-[#0f0f0f] relative overflow-hidden">
+    <section id="about" className="py-4 section-dark-gray relative overflow-hidden">
       {/* Sleek Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-32 left-20 w-1 h-40 bg-gradient-to-b from-red-500/20 via-red-400/15 to-transparent animate-pulse"></div>
@@ -39,7 +39,7 @@ export function About() {
             className="text-5xl md:text-7xl font-black text-white mb-8 font-poppins leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             The Story Behind
             <span className="block bg-gradient-to-r from-red-400 via-red-500 to-orange-500 bg-clip-text text-transparent">
@@ -55,7 +55,7 @@ export function About() {
       <motion.div
             initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
             className="space-y-8"
           >
             <div>
@@ -78,24 +78,24 @@ export function About() {
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
             className="space-y-8"
           >
-            {/* Education Highlights */}
+            {/* Current Role & Experience */}
             <div className="bg-gradient-to-r from-red-500/[0.08] via-orange-500/[0.06] to-red-500/[0.08] backdrop-blur-xl rounded-2xl p-6 border border-red-500/20 shadow-lg">
-              <h4 className="text-white font-semibold mb-4 font-poppins text-lg">Education</h4>
+              <h4 className="text-white font-semibold mb-4 font-poppins text-lg">Current Role</h4>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-300 font-poppins">B.Tech ECE</span>
-                  <span className="text-red-400 font-bold font-poppins">9.12 CGPA</span>
+                  <span className="text-gray-300 font-poppins">Software Engineer</span>
+                  <span className="text-red-400 font-bold font-poppins">Hyperqube Ionic</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-300 font-poppins">Senior Secondary</span>
-                  <span className="text-red-400 font-bold font-poppins">94.6%</span>
+                  <span className="text-gray-300 font-poppins">Experience</span>
+                  <span className="text-red-400 font-bold font-poppins">2+ Years</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-300 font-poppins">Secondary</span>
-                  <span className="text-red-400 font-bold font-poppins">95%</span>
+                  <span className="text-gray-300 font-poppins">Focus Area</span>
+                  <span className="text-red-400 font-bold font-poppins">Full-Stack</span>
                 </div>
               </div>
             </div>

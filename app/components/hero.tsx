@@ -138,7 +138,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
             className="relative text-center lg:text-left max-w-4xl px-4 sm:px-0 z-10 order-2 lg:order-1 flex-1"
           >
             {/* Decorative Corner - Responsive sizing */}
@@ -152,15 +152,15 @@ export function Hero() {
               </div>
            
                 
-              {/* Main Title with Better Typography */}
+              {/* Main Title with Consistent Typography */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight mb-2 sm:mb-8">
                 <span className="block text-base sm:text-lg md:text-xl mb-4 text-red-500 font-poppins font-medium tracking-wide uppercase">
                   Full-Stack Developer & Problem Solver
                 </span>
-                <span className="text-2xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-none mb-6 sm:mb-8 rubik-distressed-regular">
+                <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-none mb-6 sm:mb-8 rubik-distressed-regular">
                   Crafting Digital
                 </span>
-                <span className="block bg-gradient-to-r from-red-500 via-orange-400 to-red-500 bg-clip-text text-transparent font-poppins">
+                <span className="block bg-gradient-to-r from-red-500 via-orange-400 to-red-500 bg-clip-text text-transparent font-poppins text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                   Excellence
                 </span>
               </h1>
@@ -168,9 +168,9 @@ export function Hero() {
               {/* Enhanced Description */}
               <div className="space-y-4 sm:space-y-6 md:space-y-8">
                 <p className="text-base sm:text-md md:text-md lg:text-lg font-poppins text-white/90 leading-relaxed max-w-3xl mx-auto lg:mx-0">
-                  I&apos;m a strategic problem solver who transforms complex challenges into elegant digital solutions. 
-                  With expertise in full-stack development, I architect robust applications that not only meet 
-                  requirements but exceed expectations.
+                  I build digital solutions that solve real problems. From concept to deployment, 
+                  I focus on creating clean, efficient code that delivers exceptional user experiences. 
+                  My passion lies in turning ideas into impactful applications.
                 </p>
                 
                 
@@ -185,7 +185,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
             className="relative z-[9999] order-1 lg:order-2"
           >
             <div className="relative inline-block">
@@ -213,7 +213,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-12 pt-6 sm:pt-8 relative"
         >
           {/* Decorative Line */}

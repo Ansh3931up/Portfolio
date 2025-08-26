@@ -3,10 +3,11 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { Search, Menu, X, Calendar, Settings } from 'lucide-react'
+import { Search, Menu, X } from 'lucide-react'
 import { Button } from "./ui/button"
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/Draggable'
+
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -17,8 +18,6 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [showSearch, setShowSearch] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
   
   // Refs for GSAP animations
   const navRef = useRef<HTMLElement>(null)
@@ -27,20 +26,12 @@ export function Navigation() {
 
   useEffect(() => {
     setMounted(true)
-    
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 100)
-    }
-    
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // GSAP animations for bottom taskbar
   useEffect(() => {
     if (mounted && draggableButtonsRef.current) {
-      // Initial animation for taskbar
+      // Initial animation for taskbar - faster loading
       gsap.fromTo(draggableButtonsRef.current, 
         { 
           scale: 0.8, 
@@ -51,12 +42,12 @@ export function Navigation() {
           scale: 1, 
           opacity: 1, 
           y: 0,
-          duration: 1,
-          ease: "back.out(1.7)"
+          duration: 0.6,
+          ease: "power2.out"
         }
       )
 
-      // Animate taskbar items with stagger
+      // Animate taskbar items with stagger - reduced delays
       gsap.fromTo('.taskbar-item',
         { 
           opacity: 0, 
@@ -67,10 +58,10 @@ export function Navigation() {
           opacity: 1, 
           y: 0,
           scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
+          duration: 0.5,
+          stagger: 0.1,
           ease: "power2.out",
-          delay: 0.5
+          delay: 0.2
         }
       )
     }
@@ -80,7 +71,7 @@ export function Navigation() {
   useEffect(() => {
     if (!mounted || !navRef.current || !centerTextRef.current) return
 
-    // Animate center text on mount
+    // Animate center text on mount - faster loading
     gsap.fromTo(centerTextRef.current, 
       { 
         scale: 0.8, 
@@ -91,12 +82,12 @@ export function Navigation() {
         scale: 1, 
         opacity: 1, 
         rotation: 0,
-        duration: 1.2,
-        ease: "back.out(1.7)"
+        duration: 0.8,
+        ease: "power2.out"
       }
     )
 
-    // Animate navigation items
+    // Animate navigation items - faster loading
     const navItems = navRef.current.querySelectorAll('.nav-item')
     gsap.fromTo(navItems,
       { 
@@ -106,8 +97,8 @@ export function Navigation() {
       { 
         y: 0, 
         opacity: 1, 
-        duration: 0.8,
-        stagger: 0.1,
+        duration: 0.5,
+        stagger: 0.08,
         ease: "power2.out"
       }
     )
@@ -148,7 +139,6 @@ export function Navigation() {
       // You can implement search functionality here
       console.log('Searching for:', searchQuery)
       setSearchQuery('')
-      setShowSearch(false)
     }
   }
 

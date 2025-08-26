@@ -71,7 +71,7 @@ const skills = [
 
 export function Skills() {
   return (
-    <section id="skills" className="py-24 bg-gradient-to-br from-[#0a0a0a] via-[#141111] to-[#0a0a0a] relative overflow-hidden">
+    <section id="skills" className="py-24 section-darker-gray relative overflow-hidden">
       {/* Sleek Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-32 left-20 w-1 h-40 bg-gradient-to-b from-red-500/20 via-red-400/15 to-transparent animate-pulse"></div>
@@ -106,7 +106,7 @@ export function Skills() {
             className="text-5xl md:text-7xl font-black text-white mb-8 font-poppins leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             Technical
             <span className="block bg-gradient-to-r from-red-400 via-red-500 to-orange-500 bg-clip-text text-transparent">
@@ -126,9 +126,9 @@ export function Skills() {
 
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
+        {skills.map((skill, index) => (
+          <motion.div
+            key={skill.name}
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut", delay: index * 0.1 }}
@@ -182,9 +182,9 @@ export function Skills() {
 
                 {/* Hover Effect Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500/[0.05] to-orange-500/[0.05] rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+        ))}
         </div>
 
         {/* Additional Skills Section */}

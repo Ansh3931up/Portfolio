@@ -11,6 +11,7 @@ import { BackgroundTexture } from "./components/background-texture"
 import { Sidebar } from "./components/sidebar"
 import { PageLoader } from "./components/page-loader"
 import { ScrollSection } from "./components/scroll-section"
+import { ScrollController } from "./components/scroll-controller"
 // import { GitHubProfile } from './components/github-profile'
 
 export default function Home() {
@@ -30,49 +31,51 @@ export default function Home() {
       </div>
       
       {/* Main Content with Dark Gray Background */}
-      <div className="relative z-10 section-dark-gray text-white overflow-hidden">
-       
-        <div className="max-w-[calc(100vw-60px)] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+      <ScrollController maxScrollSpeed={40} enableScrollControl={true}>
+        <div className="relative z-10 section-dark-gray text-white overflow-hidden">
+         
+          <div className="max-w-[calc(100vw-60px)] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 lg:mt-8">
-            {/* Main Content Column */}
-            <div className="lg:col-span-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 lg:mt-8">
+              {/* Main Content Column */}
+              <div className="lg:col-span-8">
 
-              <ScrollSection delay={0.1}>
-                <section id="about" className="section-darker-gray py-2 sm:py-3 lg:py-4 rounded-xl mb-3 sm:mb-4">
-                  <About />
-                </section>
-              </ScrollSection>
+                <ScrollSection delay={0.1}>
+                  <section id="about" className="section-darker-gray py-2 sm:py-3 lg:py-4 rounded-xl mb-3 sm:mb-4">
+                    <About />
+                  </section>
+                </ScrollSection>
 
-              
-             
-            </div>
+                
+               
+              </div>
 
-            {/* Sidebar Column */}
-            <div className="lg:col-span-4">
-              <Sidebar />
+              {/* Sidebar Column */}
+              <div className="lg:col-span-4">
+                <Sidebar />
+              </div>
             </div>
           </div>
+          
         </div>
-        
-      </div>
-      <ScrollSection delay={0.2}>
-                <section id="projects" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
-                  <Projects />
-                </section>
-              </ScrollSection>
+        <ScrollSection delay={0.2}>
+                  <section id="projects" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
+                    <Projects />
+                  </section>
+                </ScrollSection>
 
-      <ScrollSection delay={0.3}>
-                <section id="skills" className="section-darker-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
-                  <Skills />
-                </section>
-              </ScrollSection>
+        <ScrollSection delay={0.3}>
+                  <section id="skills" className="section-darker-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
+                    <Skills />
+                  </section>
+                </ScrollSection>
 
-              <ScrollSection delay={0.4}>
-                <section id="contact" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
-                  <Contact />
-                </section>
-              </ScrollSection>
+                <ScrollSection delay={0.4}>
+                  <section id="contact" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
+                    <Contact />
+                  </section>
+                </ScrollSection>
+      </ScrollController>
       <Footer />
       {/* <GitHubProfile username="Ansh3931up" /> */}
       

@@ -20,7 +20,7 @@ export function Contact() {
     setIsSubmitting(true)
     setSubmitStatus('idle')
     setSubmitMessage('')
-
+    
     try {
       const response = await fetch('/api/send-email', {
         method: 'POST',
@@ -57,7 +57,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-8 bg-[#0f0f0f] relative overflow-hidden">
+    <section id="contact" className="py-8 section-dark-gray relative overflow-hidden">
       {/* Sleek Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-32 left-16 w-1 h-40 bg-gradient-to-b from-red-500/30 via-red-400/20 to-transparent animate-pulse"></div>
@@ -78,7 +78,7 @@ export function Contact() {
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-center mb-20"
         >
-          <motion.div 
+      <motion.div
             className="inline-flex items-center space-x-3 mb-6"
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -93,7 +93,7 @@ export function Contact() {
             className="text-5xl md:text-7xl font-black text-white mb-8 font-poppins leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             Let&apos;s Build
             <span className="block bg-gradient-to-r from-red-400 via-red-500 to-orange-500 bg-clip-text text-transparent">
@@ -103,8 +103,8 @@ export function Contact() {
           
           <motion.p 
             className="text-xl text-gray-400 max-w-2xl mx-auto font-poppins leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             Ready to discuss opportunities, collaborations, or just want to say hello? 
@@ -125,7 +125,7 @@ export function Contact() {
               <h3 className="text-3xl font-bold text-white mb-6 font-poppins flex items-center">
                 <Zap className="w-8 h-8 text-red-500 mr-3" />
                 Get In Touch
-              </h3>
+          </h3>
               <p className="text-gray-400 leading-relaxed font-poppins text-lg">
                 I&apos;m always open to discussing new opportunities, innovative projects, and exciting collaborations. 
                 Whether you have a question or just want to say hi, feel free to reach out!
@@ -163,7 +163,7 @@ export function Contact() {
             {/* Sleek Social Links */}
             <div>
               <h4 className="text-white font-semibold mb-5 font-poppins text-lg">Connect With Me</h4>
-              <div className="flex space-x-4">
+          <div className="flex space-x-4">
                 {[
                   { icon: Github, href: "https://github.com/Ansh3931up", title: "GitHub Profile", color: "red" },
                   { icon: Linkedin, href: "https://www.linkedin.com/in/ansh-kumar-a08461253", title: "LinkedIn Profile", color: "orange" }
@@ -184,8 +184,8 @@ export function Contact() {
                     <social.icon className="w-7 h-7 text-white group-hover:text-red-300 transition-colors duration-300" />
                   </motion.a>
                 ))}
-              </div>
-            </div>
+          </div>
+        </div>
 
             {/* Sleek Status Card */}
             <motion.div 
@@ -248,7 +248,7 @@ export function Contact() {
                         placeholder={field.placeholder}
                       />
                     ) : (
-                      <input
+          <input
                         type={field.type || "text"}
                         id={field.id}
                         name={field.name}
@@ -285,7 +285,7 @@ export function Contact() {
               )}
 
               <motion.button
-                type="submit"
+            type="submit"
                 disabled={isSubmitting}
                 className={`group w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-[1.02] shadow-lg cursor-pointer font-poppins flex items-center justify-center space-x-3 text-lg overflow-hidden relative ${
                   isSubmitting 
@@ -316,8 +316,8 @@ export function Contact() {
                   <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 )}
               </motion.button>
-            </form>
-          </motion.div>
+        </form>
+      </motion.div>
         </div>
 
         {/* Sleek Additional Info */}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+
 import {
   Dialog,
   DialogContent,
@@ -31,7 +32,7 @@ export function BottomNavigation() {
   // GSAP animations for bottom taskbar
   useEffect(() => {
     if (mounted && taskbarRef.current && !isHeroVisible) {
-      // Animate taskbar appearance when leaving hero
+      // Animate taskbar appearance when leaving hero - faster loading
       gsap.fromTo(taskbarRef.current, 
         { 
           opacity: 0, 
@@ -40,12 +41,12 @@ export function BottomNavigation() {
         { 
           opacity: 1, 
           y: 0,
-          duration: 0.8,
+          duration: 0.5,
           ease: "power2.out"
         }
       )
 
-      // Animate taskbar items with stagger
+      // Animate taskbar items with stagger - faster loading
       gsap.fromTo('.taskbar-item',
         { 
           opacity: 0, 
@@ -54,10 +55,10 @@ export function BottomNavigation() {
         { 
           opacity: 1, 
           y: 0,
-          duration: 0.6,
-          stagger: 0.1,
+          duration: 0.4,
+          stagger: 0.08,
           ease: "power2.out",
-          delay: 0.3
+          delay: 0.15
         }
       )
     }
@@ -71,13 +72,13 @@ export function BottomNavigation() {
   }
 
   return (
-    <div 
-      ref={taskbarRef}
-      className="bottom-taskbar max-w-2xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8"
-    >
-      <div className="flex items-center justify-center max-w-4xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 min-w-0">
-        {/* Social Media & Resume Icons */}
-        <div className="flex items-center space-x-3 sm:space-x-2 md:space-x-2 lg:space-x-2 w-full justify-evenly">
+          <div 
+        ref={taskbarRef}
+        className="bottom-taskbar  mx-auto px-3 py-2"
+      >
+        <div className="flex items-center justify-center space-x-4 w-full">
+          {/* Social Media & Resume Icons */}
+          <div className="flex items-center space-x-4 w-full justify-center">
           {/* Resume Icon */}
           <button 
             onClick={() => {
@@ -89,10 +90,10 @@ export function BottomNavigation() {
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
             title="View Resume"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-red-600 to-red-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-red-500/25 flex-shrink-0">
-              <img src="/resume.png" alt="Resume" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-red-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-red-500/25 flex-shrink-0">
+              <img src="/resume.png" alt="Resume" className="w-4 h-4" />
             </div>
-            <span className="text-[11px] sm:text-xs text-white/80 mt-2 whitespace-nowrap font-medium">
+            <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Resume
             </span>
           </button>
@@ -105,10 +106,10 @@ export function BottomNavigation() {
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
             title="GitHub Profile"
           >
-                              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-black rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-gray-500/25 border border-gray-600 flex-shrink-0">
-                    <img src="/git.png" alt="GitHub" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-                  </div>
-            <span className="text-[11px] sm:text-xs text-white/80 mt-2 whitespace-nowrap font-medium">
+            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-gray-500/25 border border-gray-600 flex-shrink-0">
+              <img src="/git.png" alt="GitHub" className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               GitHub
             </span>
           </a>
@@ -121,10 +122,10 @@ export function BottomNavigation() {
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
             title="LinkedIn Profile"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-blue-600 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 flex-shrink-0">
-              <img src="/Linkedin.png" alt="LinkedIn" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 flex-shrink-0">
+              <img src="/Linkedin.png" alt="LinkedIn" className="w-4 h-4" />
             </div>
-            <span className="text-[11px] sm:text-xs text-white/80 mt-2 whitespace-nowrap font-medium">
+            <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               LinkedIn
             </span>
           </a>
@@ -140,10 +141,10 @@ export function BottomNavigation() {
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
             title="Contact Section"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-red-500/25 flex-shrink-0">
-              <img src="/gmail.png" alt="Email" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-red-500/25 flex-shrink-0">
+              <img src="/gmail.png" alt="Email" className="w-4 h-4" />
             </div>
-            <span className="text-[11px] sm:text-xs text-white/80 mt-2 whitespace-nowrap font-medium">
+            <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Contact
             </span>
           </button>
@@ -159,10 +160,10 @@ export function BottomNavigation() {
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
             title="View Projects"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-600 to-purple-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 flex-shrink-0">
-              <img src="/project.png" alt="Projects" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-purple-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 flex-shrink-0">
+              <img src="/project.png" alt="Projects" className="w-4 h-4" />
             </div>
-            <span className="text-[11px] sm:text-xs text-white/80 mt-2 whitespace-nowrap font-medium">
+            <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Projects
             </span>
           </button>
