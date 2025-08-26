@@ -138,7 +138,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.25, delay: 0.05 }}
             className="relative text-center lg:text-left max-w-4xl px-4 sm:px-0 z-10 order-2 lg:order-1 flex-1"
           >
             {/* Decorative Corner - Responsive sizing */}
@@ -185,7 +185,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.25, delay: 0.05 }}
             className="relative z-[9999] order-1 lg:order-2"
           >
             <div className="relative inline-block">
@@ -213,7 +213,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: 0.25, delay: 0.05 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-12 pt-6 sm:pt-8 relative"
         >
           {/* Decorative Line */}
@@ -229,7 +229,7 @@ export function Hero() {
               <p className="text-2xl sm:text-3xl font-bold group-hover:text-red-500 transition-colors font-poppins">
                 {stat.value}
               </p>
-              <p className="text-sm sm:text-base text-muted-foreground font-poppins">
+              <p className="text-sm sm:text-base text-white text-muted-foreground font-poppins">
                 {stat.label}
               </p>
             </div>

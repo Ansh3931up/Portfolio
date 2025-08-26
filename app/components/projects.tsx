@@ -92,7 +92,7 @@ export function Projects() {
             className="text-5xl md:text-7xl font-black text-white mb-8 font-poppins leading-tight"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
           >
             Latest
             <span className="block bg-gradient-to-r from-red-400 via-red-500 to-orange-500 bg-clip-text text-transparent">

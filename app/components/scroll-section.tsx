@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { createScrollObserver, globalScrollController } from '../utils/scroll-utils'
 
 interface ScrollSectionProps {
   children: React.ReactNode
@@ -15,22 +14,16 @@ export function ScrollSection({ children, className = '', delay = 0 }: ScrollSec
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const observer = createScrollObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
         }
       },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      },
-      globalScrollController
+      { threshold: 0.1 }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
+    if (ref.current) observer.observe(ref.current)
 
     return () => observer.disconnect()
   }, [])
@@ -41,8 +34,8 @@ export function ScrollSection({ children, className = '', delay = 0 }: ScrollSec
       initial={{ opacity: 0, y: 50 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ 
-        duration: 0.4, 
-        delay: delay * 0.3,
+        duration: 0.2, 
+        delay: delay * 0.05, 
         ease: "easeOut"
       }}
       className={className}

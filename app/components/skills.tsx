@@ -71,7 +71,7 @@ const skills = [
 
 export function Skills() {
   return (
-    <section id="skills" className="py-24 section-darker-gray relative overflow-hidden">
+    <section id="skills" className="py-24 section-dark-gray relative overflow-hidden">
       {/* Sleek Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-32 left-20 w-1 h-40 bg-gradient-to-b from-red-500/20 via-red-400/15 to-transparent animate-pulse"></div>
@@ -88,7 +88,7 @@ export function Skills() {
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="text-center mb-20"
         >
           <motion.div 
@@ -129,9 +129,9 @@ export function Skills() {
         {skills.map((skill, index) => (
           <motion.div
             key={skill.name}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut", delay: index * 0.1 }}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.05 }}
               className="group cursor-pointer"
             >
               <div className="bg-gradient-to-br from-white/[0.06] via-white/[0.03] to-white/[0.06] backdrop-blur-xl rounded-3xl p-6 border border-white/[0.12] shadow-2xl hover:shadow-red-500/25 transition-all duration-500 hover:scale-[1.02] hover:border-red-500/30">

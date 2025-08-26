@@ -26,27 +26,10 @@
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 0 0% 0%;
-    --foreground: 36 33% 97%;
-    --card: 24 75% 10%;
-    --card-foreground: 36 33% 97%;
-    --popover: 24 75% 8%;
-    --popover-foreground: 36 33% 97%;
-    --primary: 36 33% 97%;
-    --primary-foreground: 24 75% 8%;
-    --secondary: 24 75% 12%;
-    --secondary-foreground: 36 33% 97%;
-    --muted: 24 75% 12%;
-    --muted-foreground: 36 33% 80%;
-    --accent: 24 75% 12%;
-    --accent-foreground: 36 33% 97%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 36 33% 97%;
-    --border: 36 33% 97%;
-    --input: 36 33% 97%;
-    --ring: 36 33% 97%;
+  html {
+    scroll-behavior: smooth;
   }
+  
 
   * {
     @apply border-border;
@@ -63,7 +46,8 @@
     @apply text-foreground transition-colors duration-300;
     position: relative;
     min-height: 100vh;
-    background: linear-gradient(135deg, rgb(26, 0, 0) 0%, rgb(42, 0, 0) 50%, rgb(79, 0, 0) 100%);
+    /* Consistent site background (no gradient) */
+    background: #0e0b0b; /* deep, eye-comfortable red-black */
     color: #ffffff;
     font-family: var(--font-poppins), sans-serif;
     font-weight: 600;
@@ -241,27 +225,77 @@
   }
 
   /* Hero section specific background */
-  .hero-section {
-    background:#1a1a1a;
-    background: linear-gradient(135deg, rgb(42, 0, 0) 0%, rgb(79, 0, 0) 25%, rgb(139, 0, 0) 50%, rgb(220, 20, 60) 75%, rgb(110, 0, 0) 100%);
-    position: relative;
-    min-width: 220px;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
+/* Hero section wrapper */
+.hero-section {
+  position: relative;
+  min-width: 220px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #1a1a1a; /* fallback color */
+}
+
+/* Blurred gradient background */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* cover full section */
+    background: linear-gradient(
+      135deg, 
+    rgb(42, 0, 0) 0%,
+    rgb(79, 0, 0) 25%,
+    rgb(139, 0, 0) 50%,
+    rgb(220, 20, 60) 75%,
+    rgb(110, 0, 0) 100%
+  );
+  filter: blur(30px);  /* adjust blur level */
+  z-index: 0;
+}
+
+/* Keep hero content sharp */
+.hero-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 
   /* Section backgrounds - consistent reddish gray */
   .section-dark-gray {
-    background: linear-gradient(135deg, rgb(15, 0, 0) 0%, rgb(25, 0, 0) 100%);
+    /* Single background color across all sections */
+    background: #121011; /* slight variation to give card contrast */
     min-width: 280px;
     width: 100%;
   }
 
-  .section-darker-gray {
-    background: linear-gradient(135deg, rgb(10, 0, 0) 0%, rgb(20, 0, 0) 100%);
-    min-width: 320px;
-    width: 100%;
+  /* Custom Scrollbar - Red and Black Theme */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0e0b0b;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #dc143c, #8b0000);
+    border-radius: 6px;
+    border: 2px solid #0e0b0b;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff1744, #b71c1c);
+  }
+
+  /* Firefox Scrollbar */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #dc143c #0e0b0b;
+  }
+
+  /* Let Lenis control scroll behavior (avoid native smooth scroll here) */
+  html {
+    scroll-padding-top: 20px;
   }
 
   /* Modern bottom taskbar - Mac-style compact */
@@ -828,27 +862,8 @@
   }
 
   /* Fast Scroll Warning */
-  .fast-scroll-warning {
-    position: relative;
-  }
-  
-  .fast-scroll-warning::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(220, 20, 60, 0.1);
-    z-index: 9999;
-    pointer-events: none;
-    animation: fastScrollPulse 0.5s ease-in-out;
-  }
-  
-  @keyframes fastScrollPulse {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-  }
+  /* Disable red overlay when scrolling fast to avoid glow flashes */
+  .fast-scroll-warning { }
 
   /* Floating Cards */
   .floating-cards {

@@ -1,4 +1,5 @@
 import "./globals.css"
+import LocomotiveProvider from "./components/LocomotiveProvider"
 import { Inter, Playfair_Display, UnifrakturMaguntia, Noto_Serif, Poppins, Rubik_Distressed } from 'next/font/google'
 import { ThemeProvider } from "./components/theme-provider"
 
@@ -30,10 +31,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${playfair.variable} ${unifraktur.variable} ${notoSerif.variable} ${poppins.variable} ${rubikDistressed.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CustomMouse />
-          {children}
-        </ThemeProvider>
+        <LocomotiveProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <CustomMouse />
+            {children}
+          </ThemeProvider>
+        </LocomotiveProvider>
       </body>
     </html>
   )

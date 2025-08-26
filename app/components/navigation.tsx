@@ -3,21 +3,16 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { Search, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from "./ui/button"
-import { gsap } from 'gsap'
-import { Draggable } from 'gsap/Draggable'
 
 
-// Register GSAP plugins
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(Draggable)
-}
+
 
 export function Navigation() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
+  
   
   // Refs for GSAP animations
   const navRef = useRef<HTMLElement>(null)
@@ -28,98 +23,17 @@ export function Navigation() {
     setMounted(true)
   }, [])
 
-  // GSAP animations for bottom taskbar
+  // Framer Motion animations for bottom taskbar
   useEffect(() => {
     if (mounted && draggableButtonsRef.current) {
-      // Initial animation for taskbar - faster loading
-      gsap.fromTo(draggableButtonsRef.current, 
-        { 
-          scale: 0.8, 
-          opacity: 0, 
-          y: 100
-        },
-        { 
-          scale: 1, 
-          opacity: 1, 
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out"
-        }
-      )
-
-      // Animate taskbar items with stagger - reduced delays
-      gsap.fromTo('.taskbar-item',
-        { 
-          opacity: 0, 
-          y: 30,
-          scale: 0.8
-        },
-        { 
-          opacity: 1, 
-          y: 0,
-          scale: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "power2.out",
-          delay: 0.2
-        }
-      )
+      // Taskbar animations will be handled by Framer Motion
     }
   }, [mounted])
 
-  // GSAP animations
+  // Framer Motion animations
   useEffect(() => {
     if (!mounted || !navRef.current || !centerTextRef.current) return
-
-    // Animate center text on mount - faster loading
-    gsap.fromTo(centerTextRef.current, 
-      { 
-        scale: 0.8, 
-        opacity: 0,
-        rotation: -5
-      },
-      { 
-        scale: 1, 
-        opacity: 1, 
-        rotation: 0,
-        duration: 0.8,
-        ease: "power2.out"
-      }
-    )
-
-    // Animate navigation items - faster loading
-    const navItems = navRef.current.querySelectorAll('.nav-item')
-    gsap.fromTo(navItems,
-      { 
-        y: -20, 
-        opacity: 0 
-      },
-      { 
-        y: 0, 
-        opacity: 1, 
-        duration: 0.5,
-        stagger: 0.08,
-        ease: "power2.out"
-      }
-    )
-
-    // Setup draggable buttons
-    if (draggableButtonsRef.current) {
-      const buttons = draggableButtonsRef.current.querySelectorAll('.draggable-btn')
-      buttons.forEach((btn) => {
-        Draggable.create(btn, {
-          type: "x,y",
-          bounds: "body",
-          inertia: true,
-          onDragStart: function() {
-            gsap.to(this.target, { scale: 1.1, duration: 0.2 })
-          },
-          onDragEnd: function() {
-            gsap.to(this.target, { scale: 1, duration: 0.2 })
-          }
-        })
-      })
-    }
+    // Animations will be handled by Framer Motion components
   }, [mounted])
 
   const handleNavigation = (sectionId: string) => {
@@ -134,13 +48,7 @@ export function Navigation() {
     element?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      // You can implement search functionality here
-      console.log('Searching for:', searchQuery)
-      setSearchQuery('')
-    }
-  }
+  
 
   if (!mounted) return null
 
@@ -152,7 +60,7 @@ export function Navigation() {
       {/* Main Navigation - Modern Capsule Design */}
       <nav ref={navRef} className="py-5">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-primary/90 backdrop-blur-sm rounded-full p-0 shadow-2xl border border-primary/20">
+          <div className="bg-[#521b09] backdrop-blur-sm rounded-full p-0 shadow-2xl border border-primary/20">
             <div className="flex items-center justify-between px-4 sm:px-6 py-3">
               {/* Left Navigation Items */}
               <div className="hidden lg:flex items-center space-x-6">
@@ -192,23 +100,6 @@ export function Navigation() {
 
               {/* Right Action Buttons */}
               <div className="hidden lg:flex items-center space-x-4">
-                {/* Search Bar */}
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="w-32 bg-white/20 text-white placeholder-white/70 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-300"
-                  />
-                  <button
-                    onClick={handleSearch}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
-                  >
-                    <Search size={16} />
-                  </button>
-                </div>
 
                 <button className="nav-item text-white/80 hover:text-white font-medium text-sm transition-all duration-300">
                 <img 
@@ -258,23 +149,7 @@ export function Navigation() {
               </div>
             </div>
 
-            {/* Mobile Search */}
-            <div className="relative mb-6">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-2xl px-5 py-4 text-base focus:outline-none focus:ring-2 focus:ring-red-accent/50 focus:border-red-accent/50 transition-all duration-300"
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
-              >
-                <Search size={22} />
-              </button>
-            </div>
+            
 
             {/* Navigation Items */}
             <div className="space-y-2 mb-6">

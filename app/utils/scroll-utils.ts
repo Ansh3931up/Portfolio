@@ -173,8 +173,28 @@ export const globalScrollController = new ScrollSpeedController(50)
 // Initialize scroll speed control globally
 if (typeof window !== 'undefined') {
   let scrollTimeout: NodeJS.Timeout
+  let lastScrollTime = 0
+  const minScrollInterval = 16 // Minimum 16ms between scroll events (~60fps)
 
   const handleScroll = throttle(() => {
+    // If Locomotive or Lenis is active, do not process here
+    if ((window as any).__locomotiveActive || (window as any).__lenisActive) {
+      lastScrollTime = Date.now()
+      return
+    }
+    // If Lenis is active, avoid double-handling scroll
+    if (typeof window !== 'undefined' && (window as any).__lenisActive) {
+      lastScrollTime = Date.now()
+      return
+    }
+    const now = Date.now()
+    const timeSinceLastScroll = now - lastScrollTime
+    
+    // Enforce minimum scroll interval
+    if (timeSinceLastScroll < minScrollInterval) {
+      return
+    }
+    
     if (!globalScrollController.checkScrollSpeed()) {
       // Add visual feedback for fast scrolling
       document.body.classList.add('fast-scroll-warning')
@@ -184,7 +204,49 @@ if (typeof window !== 'undefined') {
         document.body.classList.remove('fast-scroll-warning')
       }, 1000)
     }
+    
+    lastScrollTime = now
   }, 16) // ~60fps
 
+  // Add scroll speed restriction
+  const restrictScrollSpeed = (e: Event) => {
+    const now = Date.now()
+    if (now - lastScrollTime < minScrollInterval) {
+      e.preventDefault()
+      return false
+    }
+    lastScrollTime = now
+  }
+
   window.addEventListener('scroll', handleScroll, { passive: true })
+  // If Lenis is active we rely on it; otherwise apply our restriction
+  const attachRawHandlers = () => {
+    if (!(window as any).__lenisActive) {
+      window.addEventListener('wheel', restrictScrollSpeed, { passive: false })
+      window.addEventListener('touchmove', restrictScrollSpeed, { passive: false })
+    }
+  }
+  const detachRawHandlers = () => {
+    window.removeEventListener('wheel', restrictScrollSpeed as any)
+    window.removeEventListener('touchmove', restrictScrollSpeed as any)
+  }
+  // Only attach raw handlers when neither Locomotive nor Lenis is active
+  const shouldAttach = !((window as any).__locomotiveActive || (window as any).__lenisActive)
+  if (shouldAttach) attachRawHandlers()
+  // Observe Lenis flag changes (simple polling; lightweight)
+  let lastLenis = (window as any).__lenisActive
+  setInterval(() => {
+    const currLenis = (window as any).__lenisActive
+    const currLoco = (window as any).__locomotiveActive
+    if (currLenis !== lastLenis) {
+      lastLenis = curr
+      detachRawHandlers()
+      if (!currLenis && !currLoco) attachRawHandlers()
+    } else {
+      // respond to loco changes as well
+      const shouldAttachNow = !currLenis && !currLoco
+      detachRawHandlers()
+      if (shouldAttachNow) attachRawHandlers()
+    }
+  }, 500)
 }

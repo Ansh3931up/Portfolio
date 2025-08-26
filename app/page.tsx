@@ -40,11 +40,11 @@ export default function Home() {
               {/* Main Content Column */}
               <div className="lg:col-span-8">
 
-                <ScrollSection delay={0.1}>
-                  <section id="about" className="section-darker-gray py-2 sm:py-3 lg:py-4 rounded-xl mb-3 sm:mb-4">
-                    <About />
-                  </section>
-                </ScrollSection>
+                              {/* <ScrollSection delay={0.1}> */}
+                <section id="about" className="section-dark-gray py-2 sm:py-3 lg:py-4 rounded-xl mb-3 sm:mb-4">
+                  <About />
+                </section>
+              {/* </ScrollSection> */}
 
                 
                
@@ -58,23 +58,23 @@ export default function Home() {
           </div>
           
         </div>
-        <ScrollSection delay={0.2}>
+        {/* <ScrollSection delay={0.2}> */}
                   <section id="projects" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
                     <Projects />
                   </section>
-                </ScrollSection>
+                {/* </ScrollSection> */}
 
-        <ScrollSection delay={0.3}>
-                  <section id="skills" className="section-darker-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
+        {/* <ScrollSection delay={0.3}> */}
+                  <section id="skills" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
                     <Skills />
                   </section>
-                </ScrollSection>
+                {/* </ScrollSection> */}
 
-                <ScrollSection delay={0.4}>
+                {/* <ScrollSection delay={0.4}> */}
                   <section id="contact" className="section-dark-gray py-8 sm:py-12 lg:py-16 rounded-xl mb-6 sm:mb-8">
                     <Contact />
                   </section>
-                </ScrollSection>
+                {/* </ScrollSection> */}
       </ScrollController>
       <Footer />
       {/* <GitHubProfile username="Ansh3931up" /> */}
