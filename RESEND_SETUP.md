@@ -17,7 +17,7 @@ Create a `.env.local` file in your project root with:
 
 ```bash
 # Resend API Configuration
-RESEND_API_KEY=your_actual_resend_api_key_here
+RESEND_API_KEY=your_actual_resend_api_key_here 
 
 # Optional: Customize these values
 FROM_EMAIL=noreply@yourdomain.com

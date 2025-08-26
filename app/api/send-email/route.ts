@@ -1,84 +1,72 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
+import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { name, email, company, message } = await request.json()
+    const { name, email, message } = await request.json();
 
-    // Validate required fields
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
-    }
+    // Log environment variables (without sensitive data)
+    console.log('SMTP Config:', {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      user: process.env.SMTP_USER ? '***' : undefined,
+      hasPassword: !!process.env.SMTP_PASSWORD,
+      contactEmail: process.env.CONTACT_EMAIL || process.env.SMTP_USER
+    });
 
-    // Send email using Resend
-    const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <noreply@yourdomain.com>', // Update this with your verified domain
-      to: ['anshkumar3931@gmail.com'], // Your email address
-      subject: `New Contact Form Submission from ${name}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #dc2626; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">
-            New Contact Form Submission
-          </h2>
-          
-          <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #374151; margin-top: 0;">Contact Details:</h3>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
-          </div>
-          
-          <div style="background: #fef2f2; padding: 20px; border-radius: 8px; border-left: 4px solid #dc2626;">
-            <h3 style="color: #374151; margin-top: 0;">Message:</h3>
-            <p style="color: #1f2937; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-          </div>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280;">
-            <p>This message was sent from your portfolio contact form.</p>
-            <p>Time: ${new Date().toLocaleString()}</p>
-          </div>
-        </div>
-      `,
+    // Create transporter (configure with your email service)
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports like 587
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false // Only use this in development
+      }
+    });
+
+    // Verify transporter configuration
+    await transporter.verify();
+
+    // Send email
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to: process.env.CONTACT_EMAIL || process.env.SMTP_USER, // Use SMTP_USER as fallback
+      subject: `New Contact Form Submission from ${name} - Portfolio`,
       text: `
-New Contact Form Submission
-
-Contact Details:
-Name: ${name}
-Email: ${email}
-${company ? `Company: ${company}` : ''}
-
-Message:
-${message}
-
----
-This message was sent from your portfolio contact form.
-Time: ${new Date().toLocaleString()}
+        Name: ${name}
+        Email: ${email}
+        Message: ${message}
+        
+        ---
+        This message was sent from your portfolio contact form.
       `,
-    })
+      html: ` 
+        <h3>New Contact Form Submission from Portfolio</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #e5e7eb;">
+        <p style="color: #6b7280; font-size: 14px; text-align: center;">
+          This message was sent from your portfolio contact form.
+        </p>
+      `,
+    });
 
-    if (error) {
-      console.error('Resend error:', error)
-      return NextResponse.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json(
-      { message: 'Email sent successfully', data },
-      { status: 200 }
-    )
-
-  } catch (error) {
-    console.error('Email sending error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Email sent successfully' });
+  } catch (error: Error | unknown) {
+    console.error('Contact form error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    return NextResponse.json({ 
+      message: 'Failed to send email',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
