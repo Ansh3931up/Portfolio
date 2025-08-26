@@ -27,7 +27,7 @@ export async function getGitHubUser(username: string): Promise<GitHubUser> {
   const response = await fetch(`https://api.github.com/users/${username}`, {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
-      'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+      'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
       'X-GitHub-Api-Version': '2022-11-28'
     },
     next: {
@@ -47,7 +47,7 @@ export async function getGitHubRepos(username: string): Promise<GitHubRepo[]> {
     `https://api.github.com/users/${username}/repos?sort=updated&per_page=10`, {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
-      'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+      'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
       'X-GitHub-Api-Version': '2022-11-28'
     },
     next: {
