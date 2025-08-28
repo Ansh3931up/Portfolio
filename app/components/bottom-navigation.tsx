@@ -3,17 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+
 
 export function BottomNavigation() {
   const [mounted, setMounted] = useState(false)
   const [isHeroVisible, setIsHeroVisible] = useState(true)
-  const [showResume, setShowResume] = useState(false)
+
   const taskbarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -80,11 +75,8 @@ export function BottomNavigation() {
           {/* Social Media & Resume Icons */}
           <div className="flex items-center space-x-4 w-full justify-center">
           {/* Resume Icon */}
-          <button 
-            onClick={() => {
-              console.log('Resume button clicked');
-              setShowResume(true);
-            }}
+          <a 
+            href="/resume" 
             onMouseDown={(e) => e.preventDefault()}
             onTouchStart={(e) => e.preventDefault()}
             className="group flex flex-col items-center cursor-pointer active:scale-95 transition-transform select-none touch-manipulation"
@@ -96,7 +88,7 @@ export function BottomNavigation() {
             <span className="text-[10px] text-white/70 mt-1 whitespace-nowrap font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Resume
             </span>
-          </button>
+          </a>
 
           {/* GitHub Icon */}
           <a 
@@ -170,22 +162,7 @@ export function BottomNavigation() {
         </div>
       </div>
 
-      {/* Resume Dialog */}
-      <Dialog open={showResume} onOpenChange={setShowResume}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] w-[95vw] h-[95vh] p-0 sm:max-w-[90vw] sm:w-[90vw] lg:max-w-[80vw] lg:w-[80vw] xl:max-w-[70vw] xl:w-[70vw]">
-          <DialogHeader className="bg-gradient-to-r from-red-600 to-red-500 p-4 sm:p-6 m-0 rounded-t-lg">
-            <DialogTitle className="text-white text-lg sm:text-xl lg:text-2xl font-bold">Resume</DialogTitle>
-          </DialogHeader>
-          <div className="p-4 sm:p-6 lg:p-8 overflow-y-auto h-[calc(95vh-80px)] sm:h-[calc(95vh-100px)] lg:h-[calc(95vh-120px)]">
-            <iframe 
-              src="https://drive.google.com/file/d/1YyFT-E3qnjJ8F_CxcNalUW565lX5ZkcV/preview"
-              className="w-full h-full border-0 rounded-lg"
-              title="Resume"
-              allow="autoplay"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
+
     </div>
   )
 }
