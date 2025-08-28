@@ -100,22 +100,7 @@ export function About() {
               </div>
             </div>
 
-            {/* Current Role */}
-            <div className="bg-gradient-to-r from-white/[0.06] via-white/[0.03] to-white/[0.06] backdrop-blur-xl rounded-2xl p-6 border border-white/[0.12] shadow-lg">
-              <h4 className="text-white font-semibold mb-4 font-poppins text-lg">Current Role</h4>
-              <div className="space-y-3">
-                <div className="text-gray-300 font-poppins">
-                  <span className="text-red-400 font-semibold">Software Engineer</span> at Hyperqube Ionic
-                </div>
-                <div className="text-sm text-gray-400 font-poppins">
-                  Remote • Sept. 2024 – Present
-                </div>
-                <div className="text-sm text-gray-300 font-poppins">
-                  Full-stack development, multi-tenant platforms, and mentoring
-                </div>
-              </div>
-            </div>
-
+            
             {/* Key Achievements */}
             <div className="bg-gradient-to-r from-red-500/[0.08] via-orange-500/[0.06] to-red-500/[0.08] backdrop-blur-xl rounded-2xl p-6 border border-red-500/20 shadow-lg">
               <h4 className="text-white font-semibold mb-4 font-poppins text-lg">Key Achievements</h4>
