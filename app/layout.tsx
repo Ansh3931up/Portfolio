@@ -1,25 +1,31 @@
 import "./globals.css"
 import LocomotiveProvider from "./components/LocomotiveProvider"
-import { Inter, Playfair_Display, UnifrakturMaguntia, Noto_Serif, Poppins, Rubik_Distressed } from 'next/font/google'
+import { Inter, Roboto, Open_Sans,   Lato, Montserrat } from 'next/font/google'
 import { ThemeProvider } from "./components/theme-provider"
+import { AdminProvider } from "./contexts/AdminContext"
 
 import { CustomMouse } from "./components/custom-mouse"
 
-const inter = Inter({ subsets: ["latin"] })
-const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-playfair' })
-const unifraktur = UnifrakturMaguntia({ weight: '400', variable: '--font-unifraktur', subsets: ["latin"] })
-const notoSerif = Noto_Serif({ subsets: ["latin"], variable: '--font-noto-serif' })
-const poppins = Poppins({ 
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' })
+const roboto = Roboto({ 
   subsets: ["latin"], 
-  variable: '--font-poppins',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-roboto',
+  weight: ['100', '300', '400', '500', '700', '900']
+})
+const openSans = Open_Sans({ 
+  subsets: ["latin"], 
+  variable: '--font-open-sans',  weight: ['300', '400', '500', '600', '700', '800']
+})
+const lato = Lato({ 
+  subsets: ["latin"], 
+  variable: '--font-lato',
+  weight: ['100', '300', '400', '700', '900'],
   style: ['normal', 'italic']
 })
-
-const rubikDistressed = Rubik_Distressed({ 
+const montserrat = Montserrat({ 
   subsets: ["latin"], 
-  variable: '--font-rubik-distressed',
-  weight: '400'
+  variable: '--font-montserrat',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
 })
 
 export const metadata = {
@@ -97,13 +103,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} ${playfair.variable} ${unifraktur.variable} ${notoSerif.variable} ${poppins.variable} ${rubikDistressed.variable}`}>
-        <LocomotiveProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <CustomMouse />
-            {children}
-          </ThemeProvider>
-        </LocomotiveProvider>
+      <body className={`${inter.className} ${roboto.variable} ${openSans.variable}  ${lato.variable} ${montserrat.variable}`}>
+        <AdminProvider>
+          <LocomotiveProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <CustomMouse />
+              {children}
+            </ThemeProvider>
+          </LocomotiveProvider>
+        </AdminProvider>
       </body>
     </html>
   )

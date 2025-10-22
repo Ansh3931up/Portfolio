@@ -4,26 +4,146 @@
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 24 75% 12%;
-    --card: 36 33% 97%;
-    --card-foreground: 24 75% 12%;
-    --popover: 36 33% 97%;
-    --popover-foreground: 24 75% 12%;
-    --primary: 24 75% 12%;
-    --primary-foreground: 36 33% 97%;
-    --secondary: 34 33% 91%;
-    --secondary-foreground: 24 75% 12%;
-    --muted: 34 33% 91%;
-    --muted-foreground: 24 75% 35%;
-    --accent: 34 33% 91%;
-    --accent-foreground: 24 75% 12%;
-    --destructive: 0 85% 60%;
-    --destructive-foreground: 36 33% 97%;
-    --border: 24 75% 12%;
-    --input: 24 75% 12%;
-    --ring: 24 75% 12%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 208 100% 22%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 208 100% 22%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 208 100% 15%;
+    --input: 0 0% 15%;
+    --ring: 208 100% 22%;
     --radius: 0.5rem;
+    
+    /* Font variables */
+    --font-inter: 'Inter', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
+    --font-open-sans: 'Open Sans', sans-serif;
+    --font-source-sans-pro: 'Source Sans Pro', sans-serif;
+    --font-lato: 'Lato', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+
+    /* Custom Color Palette - Yale Blue Professional */
+    --yale-blue: #0d3b66;
+    --yale-blue-100: #030c15;
+    --yale-blue-200: #05182a;
+    --yale-blue-300: #08243e;
+    --yale-blue-400: #0b3053;
+    --yale-blue-500: #0d3b66;
+    --yale-blue-600: #1764ad;
+    --yale-blue-700: #2e8ce4;
+    --yale-blue-800: #74b2ed;
+    --yale-blue-900: #b9d9f6;
+
+    --lemon-chiffon: #faf0ca;
+    --lemon-chiffon-100: #534408;
+    --lemon-chiffon-200: #a6880f;
+    --lemon-chiffon-300: #ebc326;
+    --lemon-chiffon-400: #f3da79;
+    --lemon-chiffon-500: #faf0ca;
+    --lemon-chiffon-600: #fbf4d6;
+    --lemon-chiffon-700: #fcf7e0;
+    --lemon-chiffon-800: #fdf9ea;
+    --lemon-chiffon-900: #fefcf5;
+
+    --naples-yellow: #f4d35e;
+    --naples-yellow-100: #3f3204;
+    --naples-yellow-200: #7e6509;
+    --naples-yellow-300: #bd970d;
+    --naples-yellow-400: #efc21e;
+    --naples-yellow-500: #f4d35e;
+    --naples-yellow-600: #f6dc7d;
+    --naples-yellow-700: #f8e59e;
+    --naples-yellow-800: #faedbe;
+    --naples-yellow-900: #fdf6df;
+
+    --sandy-brown: #ee964b;
+    --sandy-brown-100: #391d05;
+    --sandy-brown-200: #723b0b;
+    --sandy-brown-300: #ab5810;
+    --sandy-brown-400: #e47615;
+    --sandy-brown-500: #ee964b;
+    --sandy-brown-600: #f1ab6d;
+    --sandy-brown-700: #f5c092;
+    --sandy-brown-800: #f8d5b6;
+    --sandy-brown-900: #fceadb;
+
+    --tomato: #f95738;
+    --tomato-100: #3b0b02;
+    --tomato-200: #771704;
+    --tomato-300: #b22206;
+    --tomato-400: #ed2e07;
+    --tomato-500: #f95738;
+    --tomato-600: #fa7a61;
+    --tomato-700: #fb9b88;
+    --tomato-800: #fdbdb0;
+    --tomato-900: #feded7;
+
+    /* Beautiful Color Palette - Lapis Lazuli & Teal */
+    --lapis-lazuli: #05668d;
+    --lapis-lazuli-100: #01151d;
+    --lapis-lazuli-200: #022a39;
+    --lapis-lazuli-300: #033e56;
+    --lapis-lazuli-400: #045372;
+    --lapis-lazuli-500: #05668d;
+    --lapis-lazuli-600: #089bd5;
+    --lapis-lazuli-700: #2dbef7;
+    --lapis-lazuli-800: #73d4fa;
+    --lapis-lazuli-900: #b9e9fc;
+
+    --teal: #028090;
+    --teal-100: #001a1d;
+    --teal-200: #01343a;
+    --teal-300: #014d57;
+    --teal-400: #026775;
+    --teal-500: #028090;
+    --teal-600: #03c0d9;
+    --teal-700: #29e3fc;
+    --teal-800: #70ecfd;
+    --teal-900: #b8f6fe;
+
+    --persian-green: #00a896;
+    --persian-green-100: #00221e;
+    --persian-green-200: #00433d;
+    --persian-green-300: #00655b;
+    --persian-green-400: #008779;
+    --persian-green-500: #00a896;
+    --persian-green-600: #00edd5;
+    --persian-green-700: #32ffea;
+    --persian-green-800: #76fff1;
+    --persian-green-900: #bbfff8;
+
+    --mint: #02c39a;
+    --mint-100: #00271f;
+    --mint-200: #014f3e;
+    --mint-300: #01765d;
+    --mint-400: #029e7c;
+    --mint-500: #02c39a;
+    --mint-600: #09fdc8;
+    --mint-700: #46fdd5;
+    --mint-800: #84fee3;
+    --mint-900: #c1fef1;
+
+    --cream: #f0f3bd;
+    --cream-100: #46490d;
+    --cream-200: #8d931b;
+    --cream-300: #d0d82c;
+    --cream-400: #e0e675;
+    --cream-500: #f0f3bd;
+    --cream-600: #f3f6cb;
+    --cream-700: #f6f8d8;
+    --cream-800: #f9fae5;
+    --cream-900: #fcfdf2;
   }
 
   html {
@@ -46,8 +166,9 @@
     @apply text-foreground transition-colors duration-300;
     position: relative;
     min-height: 100vh;
+    font-family: var(--font-inter);
     /* Consistent site background (no gradient) */
-    background: #0e0b0b; /* deep, eye-comfortable red-black */
+    background: #000000; /* pure black background */
     color: #ffffff;
     font-family: var(--font-poppins), sans-serif;
     font-weight: 600;
@@ -1179,4 +1300,131 @@
 
 .profile-actions button:hover {
   transform: translateY(-1px);
+}
+
+/* Portfolio specific styles */
+.portfolio-gradient {
+  background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
+}
+
+.portfolio-card {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  transition: all 0.3s ease;
+}
+
+.portfolio-card:hover {
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.font-professional {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-montserrat), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom scrollbar for portfolio */
+.portfolio-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.portfolio-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(239, 68, 68, 0.5);
+  border-radius: 4px;
+}
+
+.portfolio-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(239, 68, 68, 0.7);
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Project image background utility */
+.project-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
 }
